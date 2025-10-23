@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcodryVV Holiday Night 🌙✨</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Consolas',monospace;}
+html, body {
+  width:100%;
+  height:100%;
+  background:#ff8c00;
+}
+body{
+  overflow:hidden;
+  color:#fff;
+  background: linear-gradient(180deg, #ff8c00, #d35400, #ff7700);
+  background-size: 400% 400%;
+  animation: nightGlow 20s ease-in-out infinite;
+}
+
+@keyframes nightGlow {
+  0%{ background-position: 0% 50%; }
+  50%{ background-position: 100% 50%; }
+  100%{ background-position: 0% 50%; }
+}
+
+/* Снежинки */
+.snowflake {
+  position: fixed;
+  top: -10px;
+  color: white;
+  font-size: 1em;
+  opacity: 0.8;
+  pointer-events: none;
+  animation: fall linear infinite;
+}
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+/* Экран загрузки */
+#boot-screen{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:black;color:#ffa500;padding:40px;z-index:9999;
+  white-space:pre-wrap;overflow:hidden;font-size:16px;
+}
+.cursor{display:inline-block;width:8px;height:16px;background:#ffa500;margin-left:5px;animation:blink 0.7s infinite;}
+@keyframes blink{0%,50%{opacity:1;}51%,100%{opacity:0;}}
+
+/* Основной сайт */
+#site{opacity:0;transition:opacity 1.5s ease;}
+.border-glow{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;
+  box-shadow:0 0 60px 20px rgba(255, 165, 0, 0.1) inset;
+  animation:pulseGlow 6s infinite ease-in-out;
+  z-index:1;
+}
+@keyframes pulseGlow{
+  0%,100%{box-shadow:0 0 60px 20px rgba(255, 165, 0, 0.1) inset;}
+  50%{box-shadow:0 0 120px 40px rgba(255, 165, 0, 0.3) inset;}
+}
+
+/* Логотип */
+.logo{
+  position:absolute;top:15px;left:25px;font-size:30px;font-weight:bold;
+  color:#fff;text-shadow:0 0 15px #fff,0 0 30px #ffa500;
+  z-index:2;letter-spacing:2px;opacity:0;transform:translateY(-20px);
+  animation:fadeInUp 1.2s ease forwards 2s;
+}
+.logo::after {
+  content: "🎅";
+  position: absolute;
+  font-size: 25px;
+  top: -20px;
+  left: 20px;
+  transform: rotate(-20deg);
+}
+
+/* Верхние кнопки */
+.top-buttons{
+  position:absolute;top:15px; left:50%; transform:translateX(-50%);
+  display:flex; gap:15px; z-index:2; opacity:0;
+  animation:fadeInUp 1s ease forwards 0.8s;
+}
+.btn{
+  padding:10px 20px;
+  background:rgba(255,255,255,0.1);
+  border:2px solid #fff;
+  color:#fff;
+  cursor:pointer;
+  border-radius:10px;
+  font-size:16px;
+  transition:all 0.3s ease;
+  text-decoration:none;
+  text-shadow:0 0 10px #fff;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 0 10px #fff;
+}
+.btn:hover{
+  background:rgba(255,255,255,0.2);
+  transform: scale(1.05);
+  box-shadow:0 0 20px #fff;
+}
+
+/* гирлянды на кнопках */
+.btn::before {
+  content:"";
+  position:absolute;
+  top:-8px; left:-8px;
+  width:calc(100% + 16px);
+  height:calc(100% + 16px);
+  border-radius:15px;
+  border:2px dashed #fff;
+  opacity:0.5;
+  animation:garland 3s linear infinite;
+}
+@keyframes garland{
+  0%{border-color:#fff;}
+  25%{border-color:#ff4444;}
+  50%{border-color:#ffcc00;}
+  75%{border-color:#44ff44;}
+  100%{border-color:#fff;}
+}
+
+/* Центр */
+.center{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  z-index:2;text-align:center;
+  opacity:0;animation:fadeInUp 1.2s ease forwards 2s;
+}
+.center .btn{
+  font-size:20px;padding:15px 30px;
+  box-shadow:0 0 25px #fff;
+  background:rgba(255,255,255,0.1);
+}
+
+/* Промокод */
+.promo{
+  position:absolute;right:20px;bottom:40px;
+  background:rgba(255,255,255,0.08);
+  padding:10px 15px;border:2px solid #fff;
+  border-radius:12px;transition:.4s;
+  text-align:center;cursor:pointer;overflow:hidden;z-index:2;
+  opacity:0;animation:fadeInUp 1s ease forwards 2.5s;
+}
+.promo:hover{background:rgba(255,255,255,0.15);box-shadow:0 0 20px #fff;}
+.promo img{width:45px;opacity:.8;transition:.4s;}
+.promo:hover img{transform:rotate(360deg);opacity:1;}
+.promo .text{font-size:14px;color:#fff;transition:.3s;text-shadow:0 0 10px #fff;}
+.promo:hover .text{color:#fff;}
+.promo .hidden{display:none;font-weight:bold;margin-top:5px;color:#fff;}
+.promo:hover .hidden{display:block;animation:fadeIn .4s ease;}
+
+/* Ёлка */
+.tree {
+  position: absolute;
+  bottom: 20px;
+  left: 40px;
+  font-size: 60px;
+  animation: treeGlow 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 15px white);
+}
+@keyframes treeGlow {
+  0%,100% { filter: drop-shadow(0 0 15px white); }
+  50% { filter: drop-shadow(0 0 35px #fff); }
+}
+
+/* Гирлянда по краям */
+.garland-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  pointer-events: none;
+}
+.garland-container.bottom {
+  top: auto;
+  bottom: 0;
+}
+.bulb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: red;
+  opacity: 0.7;
+  animation: blink 2s infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 0.7; filter: brightness(1); }
+  50% { opacity: 1; filter: brightness(2); }
+}
+
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+
+<!-- Экран загрузки -->
+<div id="boot-screen"></div>
+
+<!-- Основной сайт -->
+<div id="site">
+<div class="border-glow"></div>
+<div class="logo">EcodryVV</div>
+
+<div class="top-buttons">
+<a href="https://t.me/ecadraysosu" target="_blank" class="btn sound-btn">Наш телеграмм канал</a>
+<a href="https://t.me" target="_blank" class="btn sound-btn">Войти через Telegram</a>
+</div>
+
+<div class="center">
+<a href="https://t.me/RedDevlFamily_bot" target="_blank" class="btn sound-btn">Перейти в бота чтобы купить привет от RedDevila</a>
+</div>
+
+
+
+<!-- Ёлка -->
+<div class="tree">🎄</div>
+
+<!-- Верхняя и нижняя гирлянда -->
+<div class="garland-container" id="topGarland"></div>
+<div class="garland-container bottom" id="bottomGarland"></div>
+</div>
+
+<!-- Музыка -->
+<audio id="bgMusic" loop autoplay>
+<source src="https://cdn.pixabay.com/audio/2023/09/05/audio_7b4e02fbd3.mp3" type="audio/mpeg">
+</audio>
+<audio id="hoverSound" preload="auto">
+<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_2ab1c1ad8f.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// Анимированный ввод команд
+const bootScreen = document.getElementById('boot-screen');
+const commands = [
+"> system.load(\"night_mode\");",
+"> telegram.connect();",
+"> interface.launch();",
+"[OK] Kernel initialized.",
+"[INFO] Welcome to the holiday night..."
+];
+let line=0,charIndex=0;
+function typeLine(){
+  if(line<commands.length){
+    if(charIndex<commands[line].length){
+      bootScreen.innerHTML += commands[line][charIndex];
+      charIndex++;
+      setTimeout(typeLine,50);
+    } else {
+      bootScreen.innerHTML+="\n"; line++; charIndex=0;
+      setTimeout(typeLine,300);
+    }
+  } else glitchTransition();
+}
+typeLine();
+
+function glitchTransition(){
+  bootScreen.innerHTML+="\n[LOADING...]\n";
+  const screen=bootScreen;
+  screen.style.transition="all 1s";
+  screen.style.filter="blur(2px) brightness(1.5)";
+  setTimeout(()=>{
+    screen.style.opacity=0;
+    setTimeout(()=>{
+      screen.style.display="none";
+      document.getElementById('site').style.opacity=1;
+    },1000);
+  },1000);
+}
+
+// Снежинки
+function createSnowflake(){
+  const snowflake=document.createElement('div');
+  snowflake.classList.add('snowflake');
+  snowflake.textContent='❄';
+  snowflake.style.left=Math.random()*window.innerWidth+'px';
+  snowflake.style.fontSize=(Math.random()*10+10)+'px';
+  snowflake.style.animationDuration=(Math.random()*10+10)+'s';
+  document.body.appendChild(snowflake);
+  setTimeout(()=>snowflake.remove(),20000);
+}
+setInterval(createSnowflake,200);
+
+// Звук при наведении
+const hoverSound=document.getElementById('hoverSound');
+document.querySelectorAll('.btn').forEach(btn=>{
+  btn.addEventListener('mouseenter',()=>{
+    hoverSound.currentTime=0;hoverSound.play();
+  });
+});
+
+// Создание гирлянды
+const colors = ["#ff4444", "#ffcc00", "#44ff44", "#4488ff", "#ff66ff"];
+function createGarland(container){
+  for(let i=0;i<50;i++){
+    const bulb=document.createElement('div');
+    bulb.classList.add('bulb');
+    bulb.style.background=colors[Math.floor(Math.random()*colors.length)];
+    bulb.style.animationDelay=(Math.random()*2)+'s';
+    container.appendChild(bulb);
+  }
+}
+createGarland(document.getElementById('topGarland'));
+createGarland(document.getElementById('bottomGarland'));
+</script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcodryVV 🎄</title>
+<style>
+body {
+  margin:0;
+  height:100vh;
+  background: linear-gradient(135deg, #2e1400, #ff7b00, #2e1400);
+  background-size: 400% 400%;
+  animation: bgFlow 25s ease infinite;
+  font-family: 'Consolas', monospace;
+  cursor: default;
+  overflow: hidden;
+}
+
+@keyframes bgFlow {
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+/* Кнопка промо */
+.promo {
+  position: fixed;
+  bottom: 40px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.8s ease;
+  z-index: 1000;
+}
+
+.promo img {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.8s ease;
+}
+
+.promo .text {
+  position: absolute;
+  opacity: 0;
+  color: #fff;
+  font-size: 18px;
+  text-align: center;
+  text-shadow: 0 0 10px #ffa200;
+  max-width: 90%;
+  transition: opacity 0.8s ease;
+}
+
+/* При наведении кнопка на весь экран */
+.promo:hover {
+  bottom: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  background: rgba(0,0,0,0.85);
+}
+
+.promo:hover img {
+  transform: scale(1.5) rotate(360deg);
+}
+
+.promo:hover .text {
+  opacity: 1;
+}
+</style>
+</head>
+<body>
+
+<div class="promo">
+  <img src="https://cdn-icons-png.flaticon.com/512/888/888879.png" alt="gift">
+  <div class="text">Промокод: <b>FreeHi</b><br>Отправь этот промокод в бота и тебе отправят кружок</div>
+</div>
+
+<!-- Добавляем внутри #site -->
+<div class="release-text">17 ноября релиз трека</div>
+
+<style>
+.release-text {
+  position: absolute;
+  top: 60px;       /* чуть ниже логотипа */
+  left: 25px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 10px #ffa200, 0 0 20px #ff7b00;
+  z-index: 3;
+  opacity: 0;
+  animation: fadeInUp 1s ease forwards 2.5s; /* плавное появление */
+    <script src="Animation.js"></script>
+    <link rel="stylesheet" href="css/Animation.css">
+}
+</style>
+
+
+</body>
+</html>
+
